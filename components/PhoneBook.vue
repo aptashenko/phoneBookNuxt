@@ -6,6 +6,7 @@ const store = useStore();
 const page = ref(Number(router.currentRoute.query.page) || 1)
 const contactsOnPage = ref(Number(router.currentRoute.query.limit) || 4)
 const filteredContacts = ref([])
+const searchValue = ref('')
 
 const contacts = computed(()=> store.getters.getContacts)
 const paginatedContacts = computed(() => {
@@ -16,9 +17,10 @@ const paginatedContacts = computed(() => {
 
 const pageCount = computed(() => Math.ceil(contacts.value.length / contactsOnPage.value))
 
-const searchNumber = (number) => {
-    if (number) {
-        filteredContacts.value = contacts.value.filter(item => item.phoneNumber.includes(number))
+const searchNumber = (inputValue) => {
+    searchValue.value = inputValue;
+    if (searchValue.value) {
+        filteredContacts.value = contacts.value.filter(item => item.phoneNumber.includes(inputValue) || item.name.includes(inputValue))
     } else {
         filteredContacts.value = paginatedContacts.value
     }
@@ -32,6 +34,7 @@ const handlePage = (payload) => {
         page: page.value, 
         limit: contactsOnPage.value
     }})
+    searchValue.value = ''
 }
 
 const handleSorting = (type) => {
@@ -57,11 +60,16 @@ watch(paginatedContacts, () => {
 
 <template>
     <div class="contacts">
-        <SearchMenu @searchNumber="searchNumber"/>
+        <SearchMenu 
+            :value="searchValue"
+            :searchValue="searchValue"
+            @input="searchNumber" />
         <SortingMenu @sorting="handleSorting" />
         <ContactsList 
             v-if="filteredContacts.length > 0" 
-            :filteredContacts="filteredContacts" />
+            :filteredContacts="filteredContacts"
+            :page="page" 
+        />
         <h2 v-else>You have no any contact...</h2>
         <AddContact @handleSubmit="handleSubmit" />
         <PaginationMenu 

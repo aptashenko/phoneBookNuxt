@@ -7,6 +7,9 @@ const props = defineProps({
         type: Array,
         required: true,
         default: [],
+    },
+    page: {
+        type: Number
     }
 })
 
@@ -21,6 +24,7 @@ const editPhoneNumber = (newContact) => store.dispatch('editContact', newContact
             v-for="(item, idx) of filteredContacts"
             :item="item"
             :key="idx"
+            :page="page"
             @editPhoneNumber="editPhoneNumber"
             @removeContact="removeContact"
         />

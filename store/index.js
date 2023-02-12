@@ -4,11 +4,15 @@ const baseURL = 'https://63376a2b132b46ee0be13d1f.mockapi.io/api/v1/contacts/';
 
 export const state = () => ({
     contactsList: [],
+    searchValue: '',
 })
   
 export const getters = {
     getContacts(state) {
         return state.contactsList
+    },
+    getSearchValue(state) {
+        return state.searchValue
     },
 }
 
@@ -19,6 +23,9 @@ export const mutations = {
                 item.phoneNumber = payload.phoneNumber
             }
         })
+    },
+    setSearchValue(state, payload) {
+        state.searchValue = payload
     },
     addContact (state, payload) {
         state.contactsList = [...state.contactsList, payload]

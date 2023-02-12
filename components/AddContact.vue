@@ -9,7 +9,7 @@ const addNewContact = ref(false)
 const onSubmit = (e) => {
     const { name, phoneNumber } = e.target;
     const newContact = {
-        created: $dayjs().format('DD.MM.YYYY HH:mm'),
+        created: new Date().toISOString(),
         name: name.value,
         phoneNumber: phoneNumber.value
     }

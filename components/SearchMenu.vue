@@ -1,10 +1,14 @@
 <script setup>
 const emit = defineEmits({})
+const props = defineProps({
+    searchValue: String,
+})
+console.log(props)
 </script>
 
 <template>
     <div class="search">
-        <input class="search__input" placeholder="Search..." @input="emit('searchNumber', $event.target.value)" />
+        <input class="search__input" :value="searchValue" placeholder="Search..."  @input="emit('input', $event.target.value)" />
     </div>
 </template>
 

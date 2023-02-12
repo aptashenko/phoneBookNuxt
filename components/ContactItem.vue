@@ -1,11 +1,13 @@
 <script setup>
-import { ref, useContext} from '@nuxtjs/composition-api'
+import { ref, useContext, computed, watch} from '@nuxtjs/composition-api'
 const props = defineProps({
     item: Object,
+    page: Number,
 });
 
-const { $dayjs } = useContext()
+const currentPage = computed(() => props.page)
 
+const { $dayjs } = useContext()
 const emit = defineEmits({})
 
 const details = ref(false)
@@ -29,6 +31,11 @@ const handleEdit = (contact, newPhone) => {
 const handleRemove = (id) => {
     emit('removeContact', id)
 }
+
+watch(currentPage, () => {
+    details.value = false
+})
+
 
 </script>
 
@@ -75,12 +82,12 @@ const handleRemove = (id) => {
 
 <style lang="scss" scoped>
 .slide-enter-active, .slide-leave-active {
-  transition: all 500ms linear;
+  transition: all 200ms ease;
 }
 .slide-enter, .slide-leave-to /* .list-leave-active до версии 2.1.8 */ {
     opacity: 0;
-    margin-top: -30px;
 }
+
 .contactItem {
 
     border: 1px solid #000;
