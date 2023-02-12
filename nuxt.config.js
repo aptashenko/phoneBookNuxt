@@ -15,10 +15,6 @@ export default {
   },
   target: 'static',
 
-  router: {
-    base: '/phoneBookNuxt/'
-  }
-
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/css/normalize.css',
@@ -49,7 +45,9 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    publicPath: 'https://cdn.nuxtjs.org'
+  },
 
   dayjs: {
     locales: ['en'],
