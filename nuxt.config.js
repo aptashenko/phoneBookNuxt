@@ -46,7 +46,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    publicPath: 'https://cdn.nuxtjs.org'
+    publicPath: '/_nuxt/dist/'
   },
 
   dayjs: {
