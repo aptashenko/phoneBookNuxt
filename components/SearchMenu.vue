@@ -3,7 +3,6 @@ const emit = defineEmits({})
 const props = defineProps({
     searchValue: String,
 })
-console.log(props)
 </script>
 
 <template>

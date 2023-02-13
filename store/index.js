@@ -5,6 +5,7 @@ const baseURL = 'https://63376a2b132b46ee0be13d1f.mockapi.io/api/v1/contacts/';
 export const state = () => ({
     contactsList: [],
     searchValue: '',
+    spinner: false,
 })
   
 export const getters = {
@@ -14,6 +15,9 @@ export const getters = {
     getSearchValue(state) {
         return state.searchValue
     },
+    getSpinnerState(state) {
+        return state.spinner
+    }
 }
 
 export const mutations = {
@@ -39,13 +43,15 @@ export const mutations = {
                 item.phoneNumber = payload.phoneNumber
             }
         })
-        console.log(state.contactsList)
     },
     setContacts (state, payload) {
         state.contactsList = payload
     },
     sortEscContacts(state) {
         state.contactsList = state.contactsList.sort((a,b) => Date.parse(a.created) - Date.parse(b.created))
+    },
+    setLoading(state, value) {
+        state.spinner = value
     },
     sortDescContacts(state) {
         state.contactsList = state.contactsList.sort((a,b) => Date.parse(b.created) - Date.parse(a.created))
@@ -54,8 +60,10 @@ export const mutations = {
 
 export const actions = {
     async fetchContacts({commit}) {
+        commit('setLoading', true)
         const { data } = await axios.get(baseURL)
-        commit('setContacts', data)
+        await commit('setContacts', data)
+        commit('setLoading', false)
     },
     addNewContact({commit}, payload) {
         commit('addContact', payload);
