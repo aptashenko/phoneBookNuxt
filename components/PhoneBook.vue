@@ -20,7 +20,7 @@ const pageCount = computed(() => Math.ceil(contacts.value.length / contactsOnPag
 const searchNumber = (inputValue) => {
     searchValue.value = inputValue;
     if (searchValue.value) {
-        filteredContacts.value = contacts.value.filter(item => item.phoneNumber.includes(inputValue) || item.name.includes(inputValue))
+        filteredContacts.value = contacts.value.filter(item => item.phoneNumber.includes(inputValue) || item.name.toLowerCase().includes(inputValue.toLowerCase()))
     } else {
         filteredContacts.value = paginatedContacts.value
     }
