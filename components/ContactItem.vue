@@ -1,10 +1,13 @@
 <script setup>
 import { ref, useContext, computed, watch} from '@nuxtjs/composition-api'
+import { useToggle } from '~/composables/useToggle'
 const props = defineProps({
     item: Object,
     page: Number,
 });
 
+const {toggle, setToggle} = useToggle();
+ 
 const currentPage = computed(() => props.page)
 
 const { $dayjs } = useContext()
@@ -30,6 +33,10 @@ const handleEdit = (contact, newPhone) => {
 
 const handleRemove = (id) => {
     emit('removeContact', id)
+}
+
+const addToFavorite = () => {
+    setToggle()
 }
 
 watch(currentPage, () => {
@@ -70,17 +77,33 @@ watch(currentPage, () => {
                     Phone: {{ props.item.phoneNumber }}
                 </p>
             </div>
-            <button 
-                class="contactItem__edit" 
-                @click="openPhoneEditor"
-            ><span class="material-icons">edit</span>
-            </button>
+            <div class="contactItem__buttons">
+                <button 
+                    class="contactItem__edit" 
+                    @click="openPhoneEditor"
+                ><span class="material-icons">edit</span>
+                </button>
+                <button 
+                    class="contactItem__favorite"
+                    @click="addToFavorite()"
+                >
+                    <span class="material-symbols-outlined icon" :class="{filled: toggle}">
+                        favorite
+                    </span>
+                </button>
+            </div>
         </div>
         </Transition>
     </li>
 </template>
 
 <style lang="scss" scoped>
+.filled {
+    font-variation-settings: 'FILL' 1;
+    color: red;
+    transform: scale(1.1);
+}
+
 .slide-enter-active, .slide-leave-active {
   transition: all 200ms ease;
 }
@@ -154,6 +177,22 @@ watch(currentPage, () => {
         
         &:hover {
             transform: scale(1.2);
+        }
+    }
+
+    &__favorite {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        transition: all 250ms linear;
+
+        & .icon {
+            transition: all 250ms linear;
+        }
+
+        &:hover {
+            color: red;
+            transform: scale(1.1);
         }
     }
 }

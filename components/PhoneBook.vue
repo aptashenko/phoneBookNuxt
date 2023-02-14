@@ -1,12 +1,10 @@
 <script setup>
 import { computed, ref, useStore, useContext, onMounted, watch } from '@nuxtjs/composition-api'
-import { useLoading } from '~/composables/useLoading'
 
 const { router } = useContext().app
 const store = useStore();
 
-const load = useLoading()
-console.log('load', load[0])
+
 
 
 const page = ref(Number(router.currentRoute.query.page) || 1)
@@ -87,6 +85,7 @@ watch(paginatedContacts, () => {
                 @handlePage="handlePage"
             />
         </div>
+        <CurrentTimer />
     </div>
 </template>
 
