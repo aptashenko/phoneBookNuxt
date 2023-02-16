@@ -7,11 +7,11 @@ const sorting = (type) => {
 </script>
 
 <template>
-    <div class="sort">
-        <p class="sort__title">Sort by date:</p>
-        <div class="sort__buttons">
-            <button class="sort__btn" @click="sorting('desc')"><span class="material-icons">expand_less</span></button>
-            <button class="sort__btn" @click="sorting('esc')"><span class="material-icons">expand_more</span></button>
+    <div class="flex items-center justify-end">
+        <p class="flex-1 text-11px">Sort by date:</p>
+        <div class="">
+            <button class="transform transition duration-300 hover:scale-120" @click="sorting('desc')"><span class="material-icons">expand_less</span></button>
+            <button class="transform transition duration-300 hover:scale-120" @click="sorting('esc')"><span class="material-icons">expand_more</span></button>
         </div>
     </div>
 </template>

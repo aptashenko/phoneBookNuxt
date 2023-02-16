@@ -20,6 +20,11 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    // windi preflight
+    'virtual:windi-base.css',
+    // windi extras
+    'virtual:windi-components.css',
+    'virtual:windi-utilities.css',
     '~/assets/css/normalize.css',
     '~/assets/css/main.css',
   ],
@@ -31,7 +36,9 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [],
+  buildModules: [
+    'nuxt-windicss',
+  ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -55,5 +62,29 @@ export default {
   dayjs: {
     locales: ['en'],
     defaultLocale: 'en'
-  }
+  },
+  windicss: {
+    scan: {
+      dirs: ['./'],
+      exclude: [
+        'node_modules',
+        'dist',
+        '.git',
+        '.github',
+        '.nuxt',
+        // testing files & folders
+        'coverage',
+        '**/__snapshots__',
+        '*.test.js',
+      ],
+    },
+    preflight: {
+      alias: {
+        // add nuxt aliases
+        'nuxt-link': 'a',
+        // @nuxt/image module
+        'nuxt-img': 'img',
+      },
+    },
+  },
 }

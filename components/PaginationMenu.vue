@@ -1,36 +1,30 @@
 <script setup>
+import {computed} from '@nuxtjs/composition-api'
 const props = defineProps({
     page: Number,
     pageCount: Number,
 })
-const emit = defineEmits({})
+const emit = defineEmits('handlePage')
 
-const pageChange = (nextPage) => {
-    emit('handlePage', nextPage)
+const currentPage = computed(() => props.page)
+
+const pageChange = (e) => {
+    const buttonIndex = e.target.parentNode.dataset.index
+    if (!buttonIndex && e.target.nodeName === 'BUTTON') {
+        return
+    }
+    emit('handlePage', Number(buttonIndex))
+    console.log(currentPage.value)
 }
+
 </script>
 
 <template>
     <div>
-        <div class="contacts__page">
-            <button class="contacts__btn" :disabled="props.page === 1" @click="pageChange(-1)"><span class="material-icons">arrow_back_ios</span></button>
-            <button class="contacts__btn" :disabled="props.page === props.pageCount" @click="pageChange(1)"><span class="material-icons">arrow_forward_ios</span></button>
+        <div class="flex justify-evenly items-center my-20px" @click="pageChange">
+            <button class="bg-transparent border-none cursor-pointer" data-index="-1" :disabled="currentPage === 1"><span class="material-icons">arrow_back_ios</span></button>
+            <p class="text-center">Page: <b>{{ props.page }}</b></p>
+            <button class="bg-transparent border-none cursor-pointer" data-index="1" :disabled="props.page === props.pageCount"><span class="material-icons">arrow_forward_ios</span></button>
         </div>
-        <p class="contacts__pageName">Page: <b>{{ props.page }}</b></p>
     </div>
 </template>
-
-<style lang="scss">
-.contacts {
-    &__page {
-        display: flex;
-        justify-content: space-evenly;
-    }
-
-    &__btn {
-        background: transparent;
-        border: none;
-        cursor: pointer;
-    }
-}
-</style>

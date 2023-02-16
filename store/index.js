@@ -21,36 +21,29 @@ export const getters = {
 }
 
 export const mutations = {
-    editNumber (state, payload) {
-        state.contactsList.forEach(item => {
-            if (item.id === payload.id) {
-                item.phoneNumber = payload.phoneNumber
-            }
-        })
-    },
     setSearchValue(state, payload) {
         state.searchValue = payload
     },
-    addContact (state, payload) {
+    ADD_CONTACT (state, payload) {
         state.contactsList = [...state.contactsList, payload]
     },
-    deleteContact (state, payload) {
+    DELETE_CONTACT (state, payload) {
         state.contactsList = state.contactsList.filter(item => item.id !== payload)
     },
-    editContact (state, payload) {
+    UPDATE_CONTACT(state, payload) {
         state.contactsList.forEach(item => {
             if (item.id === payload.id) {
-                item.phoneNumber = payload.phoneNumber
+                item = payload
             }
         })
     },
-    setContacts (state, payload) {
+    SET_CONTACTS(state, payload) {
         state.contactsList = payload
     },
     sortEscContacts(state) {
         state.contactsList = state.contactsList.sort((a,b) => Date.parse(a.created) - Date.parse(b.created))
     },
-    setLoading(state, value) {
+    SET_LOADING(state, value) {
         state.spinner = value
     },
     sortDescContacts(state) {
@@ -60,21 +53,21 @@ export const mutations = {
 
 export const actions = {
     async fetchContacts({commit}) {
-        commit('setLoading', true)
+        commit('SET_LOADING', true)
         const { data } = await axios.get(baseURL)
-        await commit('setContacts', data)
-        commit('setLoading', false)
+        await commit('SET_CONTACTS', data)
+        commit('SET_LOADING', false)
     },
     addNewContact({commit}, payload) {
-        commit('addContact', payload);
+        commit('ADD_CONTACT', payload);
         axios.post(baseURL, payload)
     },
     removeContact({commit}, payload) {
-        commit('deleteContact', payload)
+        commit('DELETE_CONTACT', payload)
         axios.delete(baseURL+payload)
     },
     editContact({commit}, payload) {
         axios.put(baseURL+payload.id, payload)
-        commit('editContact', payload)
+        commit('UPDATE_CONTACT', payload)
     },
 }

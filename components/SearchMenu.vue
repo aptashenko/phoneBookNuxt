@@ -6,19 +6,10 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="search">
-        <input class="search__input" :value="searchValue" placeholder="Search..."  @input="emit('input', $event.target.value)" />
+    <div class="w-full mb-25px">
+        <input class="w-full p-5px border-1px" :value="searchValue" placeholder="Search..."  @input="emit('input', $event.target.value)" />
     </div>
 </template>
 
 <style lang="scss">
-.search {
-    width: 100%;
-    margin-bottom: 25px;
-
-    &__input {
-        width: 100%;
-        padding: 5px;
-    }
-}
 </style>

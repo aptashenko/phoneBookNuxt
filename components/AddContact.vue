@@ -23,61 +23,84 @@ const openAddMenu = () => addNewContact.value = !addNewContact.value
 </script>
 
 <template>
-    <div class="addContact">
-        <button class="addContact__button" @click="openAddMenu">
+    <div class="flex flex-col">
+        <button class="text-right" @click="openAddMenu">
             <span class="material-icons">{{ addNewContact ? 'close' : 'person_add' }}</span>
         </button>
-        <Transition name="slide">
-            <div v-if="addNewContact" class="addContact__wrapper">
-                <h2 class="addContact__title">Add new contact</h2>
-                <form id="addContact" class="addContact__form" @submit.prevent="onSubmit">
-                    <input class="addContact__name" name="name" placeholder="name" />
-                    <input class="addContact__phone" name="phoneNumber" placeholder="phone" />
-                </form>
-                <button form="addContact" type="submit" class="addContact__addButton">Add new contact</button>
+            <div class="w-[70%] mx-auto flex flex-col min-h-158px">
+            <Transition name="slide">
+                <span v-if="addNewContact">
+                    <h2 class="font-bold text-center mb-20px">Add new contact</h2>
+                    <form id="addContact" class="" @submit.prevent="onSubmit">
+                        <input class="border-1px mb-10px p-5px" name="name" placeholder="name" />
+                        <input class="border-1px p-5px" name="phoneNumber" placeholder="phone" />
+                    </form>
+                    <button form="addContact" type="submit" class="mt-20px bg-green-400 block w-fit py-5px px-10px rounded-10px mx-auto">Submit</button>
+                </span>
+            </Transition>
             </div>
-        </Transition>
     </div>
 </template>
 
 <style lang="scss">
-.slide-enter-active, .slide-leave-active {
-  transition: all 500ms linear;
+.slide-enter-active {
+  animation: right 1s ease 0s 1 normal forwards;
 }
-.slide-enter, .slide-leave-to /* .list-leave-active до версии 2.1.8 */ {
-    opacity: 0;
-    margin-bottom: -50px;
+
+.slide-leave-active {
+    transform: translateX(-250px);
+    transition: all 250ms ease;
 }
-.addContact {
-    margin-top: auto;
-    &__button {
-        display: block;
-        border: none;
-        cursor: pointer;
-        margin-left: auto;
-        background: transparent;
-    }
 
-    &__form {
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-    }
+.slide-enter /* .list-leave-active до версии 2.1.8 */ {
+    animation: right 1s ease 0s 1 normal forwards;
+}
+.slide-leave-to {
+    transform: translateX(-250px);
+    transition: all 250ms ease;
+}
 
-    &__title {
-        text-align: center;
-    }
+@keyframes right {
+	0% {
+		animation-timing-function: ease-in;
+		opacity: 0;
+		transform: translateX(250px);
+	}
 
-    &__addButton {
-        display: block;
-        margin: 20px auto 0;
-        background: green;
-        color: #fff;
-        border: none;
-        padding: 5px 8px;
-        border-radius: 10px;
-        cursor: pointer;
-    }
+	38% {
+		animation-timing-function: ease-out;
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+	55% {
+		animation-timing-function: ease-in;
+		transform: translateX(68px);
+	}
+
+	72% {
+		animation-timing-function: ease-out;
+		transform: translateX(0);
+	}
+
+	81% {
+		animation-timing-function: ease-in;
+		transform: translateX(32px);
+	}
+
+	90% {
+		animation-timing-function: ease-out;
+		transform: translateX(0);
+	}
+
+	95% {
+		animation-timing-function: ease-in;
+		transform: translateX(8px);
+	}
+
+	100% {
+		animation-timing-function: ease-out;
+		transform: translateX(0);
+	}
 }
 </style>
