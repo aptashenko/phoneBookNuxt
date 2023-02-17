@@ -1,4 +1,6 @@
 <script setup>
+import { onMounted } from '@nuxtjs/composition-api';
+
 const props = defineProps({
     filteredContacts: Array,
     searchValue: String,
@@ -8,21 +10,28 @@ const props = defineProps({
 })
 const emits = defineEmits('handleSubmit', 'searchNumber', 'handlePage')
 
+const handleSubmit = (value) => {
+    emits('handleSubmit', value)
+}
+
 const handleSearch = (value) => {
     emits('searchNumber', value)
 }
 
 const handlePageCounter = (value) => {
-    // console.log(props.page)
     emits('handlePage', value)
 }
+
+onMounted(()=>{
+    console.log('PhoneBook')
+})
 
 </script>
 
 <template>
     <div class="flex flex-col min-h-80vh">
         <TheLoader v-if="props.loading" />
-        <div class="flex flex-col h-full justify-between" v-else>
+        <div class="flex flex-col h-full justify-between flex-grow" v-else>
             <SearchMenu 
                 :value="props.searchValue"
                 :searchValue="props.searchValue"
@@ -34,7 +43,7 @@ const handlePageCounter = (value) => {
             />
             <h2 v-else>You have no any contact...</h2>
             <div class="mt-10px">
-                <AddContact @handleSubmit="emit('handleSubmit')" />
+                <AddContact @handleSubmit="handleSubmit" />
                 <PaginationMenu 
                     :page="props.page" 
                     :pageCount="props.pageCount"

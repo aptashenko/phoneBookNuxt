@@ -1,5 +1,5 @@
 <script setup>
-import {useStore} from '@nuxtjs/composition-api'
+import { useStore } from '@nuxtjs/composition-api'
 const store = useStore();
 
 const props = defineProps({
@@ -17,15 +17,16 @@ const removeContact = (id) => store.dispatch('removeContact', id)
 const editPhoneNumber = (newContact) => store.dispatch('editContact', newContact)
 const handleSorting = (type) => {
     if (type === 'esc') {
-        store.commit('sortEscContacts')
+        store.commit('SORT_CONTACTS_ESC')
     } else if (type === 'desc') {
-        store.commit('sortDescContacts')
+        store.commit('SORT_CONTACTS_DESC')
     }
 }
+
 </script>
 
 <template>
-    <div>
+    <div class="flex-grow border-1px p-5px min-h-350px">
         <SortingMenu @sorting="handleSorting" />
         <ul  class="contacts__list">
             <ContactItem 

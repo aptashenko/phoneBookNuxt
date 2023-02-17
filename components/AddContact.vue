@@ -8,12 +8,13 @@ const addNewContact = ref(false)
 
 const onSubmit = (e) => {
     const { name, phoneNumber } = e.target;
-    const newContact = {
-        created: new Date().toISOString(),
-        name: name.value,
-        phoneNumber: phoneNumber.value
-    }
-    emit('handleSubmit', newContact)
+	const newContact = new Map();
+	newContact.set('created', new Date().toISOString())
+	.set('name', name.value)
+	.set('phoneNumber', phoneNumber.value)
+	.set('favorite', false)
+
+    emit('handleSubmit', Object.fromEntries(newContact))
     e.target.reset()
     addNewContact.value = false;
 }

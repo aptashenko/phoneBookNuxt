@@ -9,6 +9,7 @@ const filteredContacts = ref([])
 const searchValue = ref('')
 const loading = computed(()=> store.getters.getSpinnerState)
 const contacts = computed(()=> store.getters.getContacts)
+const favorites = computed(()=> store.getters.getFavorites)
 const paginatedContacts = computed(() => {
     let start = (page.value - 1) * contactsOnPage.value;
     let end = start + contactsOnPage.value
@@ -44,11 +45,15 @@ const changeActivePage = (component) => {
 
 }
 
-watch(contacts, (changed) => {
+watch(paginatedContacts, (changed) => {
     if(changed) {
         filteredContacts.value = paginatedContacts.value
     }
 } )
+
+watch(favorites, (changed) => {
+  console.log('hello')
+})
 
 onMounted(() => {
     store.dispatch('fetchContacts', {
@@ -60,7 +65,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-300px min-h-70vh mx-auto mt-50px border-1px p-10px overflow-hidden">
+  <div class="w-350px min-h-70vh mx-auto mt-50px border-1px p-10px overflow-hidden">
     <div class="w-full flex gap-10px mb-10px">
       <button 
         class="border-1px p-10px transition-color duration-300 hover:(bg-yellow-500 text-[#fff])"
