@@ -17,10 +17,6 @@ const handlePageCounter = (value) => {
     emits('handlePage', value)
 }
 
-onMounted(()=>{
-    console.log('Favorite')
-})
-
 </script>
 
 <template>

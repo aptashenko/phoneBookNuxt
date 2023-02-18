@@ -22,10 +22,6 @@ const handlePageCounter = (value) => {
     emits('handlePage', value)
 }
 
-onMounted(()=>{
-    console.log('PhoneBook')
-})
-
 </script>
 
 <template>

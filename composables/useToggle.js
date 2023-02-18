@@ -1,10 +1,9 @@
 import { ref } from '@nuxtjs/composition-api'
 
 export const useToggle = () => {
-    const toggle = ref(false)
-
-    const setToggle = () => {
-        toggle.value = !toggle.value
+    const toggle = ref()
+    const setToggle = (initValue) => {
+        toggle.value = !initValue
     }
 
     return {toggle, setToggle}

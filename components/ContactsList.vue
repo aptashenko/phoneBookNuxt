@@ -26,7 +26,7 @@ const handleSorting = (type) => {
 </script>
 
 <template>
-    <div class="flex-grow border-1px p-5px min-h-350px">
+    <div class="flex-grow bg-middle p-5px min-h-350px">
         <SortingMenu @sorting="handleSorting" />
         <ul  class="contacts__list">
             <ContactItem 

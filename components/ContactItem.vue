@@ -10,8 +10,8 @@ const store = useStore();
 
 const currentPage = computed(() => props.page)
 
-const {toggle, setToggle} = useToggle();
- 
+const {toggle, setToggle} = useToggle(props.item.favorite);
+
 const { $dayjs } = useContext()
 const emit = defineEmits({})
 
@@ -38,12 +38,10 @@ const handleRemove = (id) => {
 }
 
 const addToFavorite = (oldContact) => {
-    setToggle()
+    setToggle(props.item.favorite)
     const updatedContact = new Map(Object.entries(oldContact))
     updatedContact.set('favorite', toggle.value)
     store.dispatch('editContact', Object.fromEntries(updatedContact))
-    store.dispatch('toggleFavorite', Object.fromEntries(updatedContact))
-
 }
 
 watch(currentPage, () => {
@@ -54,50 +52,50 @@ watch(currentPage, () => {
 </script>
 
 <template>
-    <li class="contactItem">
-        <div class="contactItem__top">
-            <div class="contactItem__card">
-                <p class="contactItem__name"><strong>{{ props.item.name }}</strong></p>
-                <p class="contactItem__name">{{ $dayjs(props.item.created).format('DD.MM.YYYY (HH:mm)') }}</p>
-                <button class="contactItem__buttonShow" @click="handleDetails(props.item)">
-                    <span class="material-icons">{{ details ? 'visibility_off' : 'visibility' }}</span>
-                </button>
-            </div>
-            <button class="contactItem__deleteButton" @click="handleRemove(props.item.id)">
-                <span class="material-icons">delete</span>
+    <li class="border-b-1px flex flex-col py-5px cursor-pointer hover:(bg-[] text-verydark)" @click="handleDetails(props.item)">
+        <div class="flex justify-between items-center">
+            <p class=""><strong>{{ props.item.name }}</strong></p>
+            <button class="" @click="handleDetails(props.item)">
+                <span class="material-symbols-outlined">{{ details ? 'close' : 'info' }}</span>
             </button>
         </div>
         <Transition name="show">
-        <div v-show="details" class="contactItem__bottom">
-            <div class="contactItem__data">
+        <div v-show="details" class="">
+            <div class="">
                 <input 
                     v-if="editNumber"
-                    class="contactItem__input" 
+                    class="" 
                     :value="props.item.phoneNumber" 
                     @keyup.enter="handleEdit(props.item, $event.target.value)" 
                     @blur="handleEdit(props.item, $event.target.value)" 
                 />
                 <p 
                     v-else 
-                    class="contactItem__phone" 
+                    class="" 
                     @click="openPhoneEditor">
-                    Phone: {{ props.item.phoneNumber }}
+                    Номер телефона: {{ props.item.phoneNumber }}
+                </p>
+                <p class="">
+                    Создано: {{ $dayjs(props.item.created).format('DD.MM.YYYY (HH:mm)') }}
                 </p>
             </div>
-            <div class="contactItem__buttons">
+            <div class="">
                 <button 
-                    class="contactItem__edit" 
+                    class="" 
                     @click="openPhoneEditor"
                 ><span class="material-icons">edit</span>
                 </button>
                 <button 
-                    class="contactItem__favorite"
+                    class=""
                     @click="addToFavorite(props.item)"
                 >
-                    <span class="material-symbols-outlined icon" :class="{filled: props.item.favorite}">
+                    <span class="material-symbols-outlined" :class="{filled: props.item.favorite}">
                         favorite
                     </span>
                 </button>
+                <button class="" @click="handleRemove(props.item.id)">
+                <span class="material-icons">delete</span>
+            </button>
             </div>
         </div>
         </Transition>
@@ -105,10 +103,12 @@ watch(currentPage, () => {
 </template>
 
 <style lang="scss" scoped>
+.filled-none {
+  font-variation-settings:'FILL' 0
+}
+
 .filled {
     font-variation-settings: 'FILL' 1;
-    color: red;
-    transform: scale(1.1);
 }
 
 .show-enter {
@@ -138,95 +138,6 @@ watch(currentPage, () => {
     transition: all 500ms .2s ease;
     opacity: 0;
     margin-top: -50px;
-}
-
-.contactItem {
-
-    border: 1px solid #000;
-    &:not(:last-child) {
-        margin-bottom: 20px;
-    }
-
-    &__name {
-        flex: 1;
-        font-size: 13px;
-    }
-
-    &__card {
-        display: flex;
-        flex: 1;
-        align-items: center;
-        text-align: center;
-    }
-
-    &__top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-    }
-    &__bottom {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-    }
-
-    &__buttonShow {
-        display: flex;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-    }
-    &__edit {
-        background: transparent;
-        border: none;
-        cursor: pointer;
-    }
-    &__input {
-        width: 100%;
-    }
-
-    &__created {
-        font-size: 14px;
-    }
-    &__phone {
-        font-size: 14px;
-    }
-
-    &__deleteButton {
-        display: flex;
-        background: transparent;
-        border: none;
-        padding: 1px;
-        border-radius: 10px;
-        cursor: pointer;
-        margin-left: 10px;
-        transition: all .25s linear;
-        
-        &:hover {
-            transform: scale(1.2);
-        }
-    }
-
-    &__favorite {
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        transition: all 250ms linear;
-
-        & .icon {
-            transition: all 250ms linear;
-        }
-
-        &:hover {
-            color: red;
-            transform: scale(1.1);
-        }
-    }
-}
-
-
- 
+} 
 
 </style>
